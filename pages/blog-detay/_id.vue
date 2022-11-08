@@ -65,7 +65,7 @@
     </div>
     <div class="container mb-5" v-loading="commentLoad">
       <h4>Yorumlar</h4>
-      <div v-if="getToken">
+      <div v-if="this.$auth.$storage.getUniversal('token')">
         <el-input
           v-model="cmm"
           :rows="3"
@@ -186,7 +186,7 @@ export default {
         )
       } else {
         this.buttonLoad = true
-        var profile = this.getProfile
+        var profile = this.$auth.$storage.getUniversal('profile')
         let params = {
           name: profile.name,
           surname: profile.surname,

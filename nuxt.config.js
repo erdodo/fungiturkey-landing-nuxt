@@ -4,9 +4,9 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'fungi-nuxt',
+    title: 'Fungi Turkey',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'tr-TR',
     },
     meta: [
       { charset: 'utf-8' },
@@ -25,7 +25,7 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/element-ui'],
+  plugins: ['@/plugins/element-ui', '@/plugins/cookie'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -35,6 +35,13 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['@nuxtjs/axios', '@nuxtjs/axios', '@nuxtjs/auth-next'],
+
+  env: {
+    baseUrl: 'http://api2.fungiturkey.org/api/',
+    fungi: 'fungitu2_test_fungiturkey',
+    simple: 'fungitu2_test_Simple',
+    img_base: 'https://api2.fungiturkey.org/uploads/',
+  },
 
   compilerOptions: {
     types: ['@nuxtjs/auth-next'],
@@ -48,6 +55,19 @@ export default {
         token: '',
       },
     },
+  },
+  'cookie-universal-nuxt': {
+    //  To make it work for SSR, remember to set `ssr: true` and `target: 'server'`
+    ssr: true,
+    target: 'server',
+
+    modules: [
+      // Simple usage
+      'cookie-universal-nuxt',
+
+      // With options
+      ['cookie-universal-nuxt', { alias: 'cookiz' }],
+    ],
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

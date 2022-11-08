@@ -10,11 +10,22 @@
       arrow="always"
     >
       <el-carousel-item v-for="(slide, i) in slides" :key="i">
-        <div
-          class="slider"
-          :alt="slide.title"
-          :style="'background-image: url(' + slide.image + ')'"
-        >
+        <div :alt="slide.title">
+          <el-image
+            :src="slide.image"
+            fit="cover"
+            style="height: 100vh; width: 100vw"
+            :alt="slide.title"
+          >
+            <div
+              slot="placeholder"
+              v-loading="true"
+              class="image-slot"
+              style="height: 100vh; width: 100vw"
+            >
+              Loading<span class="dot">...</span>
+            </div>
+          </el-image>
           <div class="slider-content">
             <h1>{{ slide.title }}</h1>
             <p class="fs-6">{{ slide.content }}</p>
@@ -103,7 +114,7 @@ export default {
   align-items: center;
   flex-direction: column;
   color: white;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   text-align: center;
   padding: 0 50px;
 }
@@ -115,6 +126,7 @@ export default {
 .slider-content p {
   font-size: 1.3rem !important;
   line-height: 1.2;
+  color: rgba(255, 255, 255, 0.9);
 }
 .el-carousel__arrow {
   font-size: 45px !important;

@@ -21,12 +21,8 @@
 	=========================================== -->
     <div class="container">
       <div class="row">
-        <div
-          class="col-12 col-md-6 col-lg-4"
-          v-for="r in registerData"
-          :key="r"
-        >
-          <label class="mt-2 mb-0">{{ r.display }} :</label>
+        <div class="col-12 col-md-6" v-for="r in registerData" :key="r">
+          <label class="mt-0 mb-0">{{ r.display }} :</label>
 
           <el-input
             v-if="r.name == 'phone'"
@@ -117,13 +113,13 @@ export default {
       }
       console.log(control)
       if (control > 0) {
-        ElNotification({
+        this.$notify({
           title: 'Dikkat',
           message: 'Boş alanları lütfen doldurunuz',
           type: 'info',
         })
       } else if (this.params['password'] != this.params['password_2']) {
-        ElNotification({
+        this.$notify({
           title: 'Dikkat',
           message: 'Girdiğiniz şifreler uyumsuz',
           type: 'warning',
@@ -133,7 +129,7 @@ export default {
           .$post('/register', this.params)
           .then((res) => {
             if (res.data.status == 'success') {
-              ElNotification({
+              this.$notify({
                 title: 'Başarılı',
                 message: res.message,
                 type: 'success',
@@ -141,7 +137,7 @@ export default {
               this.state = false
               this.login()
             } else {
-              ElNotification({
+              this.$notify({
                 title: 'Başarılı',
                 message: res.message,
                 type: 'error',

@@ -2,7 +2,11 @@
   <div>
     <div
       class="footer-abone py-2 mt-5 d-flex flex-column flex-md-row text-center justify-content-center align-content-center align-items-center align-items-md-baseline"
-      v-if="$route.path != '/' && getToken && getProfile?.bulletin_state == '0'"
+      v-if="
+        $route.path != '/' &&
+        this.$auth.$storage.getUniversal('token') &&
+        getProfile?.bulletin_state == '0'
+      "
     >
       Son etkinliklerden haberdan olmak ister misiniz
       <button class="ml-2 btn btn-outline-primary btn-sm" @click="aboneOl()">
@@ -43,17 +47,23 @@ export default {
         bulletin_state: '1',
       }
       axios
-        .post(this.simple + '/users/' + this.getProfile.id + '/update', params)
+        .post(
+          this.simple +
+            '/users/' +
+            this.$auth.$storage.getUniversal('profile').id +
+            '/update',
+          params
+        )
         .then((res) => {
           if (res.data.status == 'success') {
             this.$store.commit('setProfile', JSON.stringify(res.data.data))
-            ElNotification({
+            this.$notify({
               title: 'Başarılı',
               message: 'Bültenimize başarıyla abone oldunuz.',
               type: 'success',
             })
           } else {
-            ElNotification({
+            this.$notify({
               title: 'Hata',
               message:
                 'Bir hata ile karşılaşıldı. Lütfen daha sonra tekrar deneyiniz.',

@@ -1,9 +1,9 @@
 export const state = () => ({
   token: '',
   profile: '',
-  fungi: 'fungitu2_fungiturkey',
-  simple: 'fungitu2_Simple',
-  img_base: 'https://api.fungiturkey.org/uploads/',
+  fungi: process.env.fungi,
+  simple: process.env.simple,
+  img_base: process.env.img_base,
 })
 
 export const getters = {

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Element from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/en'
+import tr from 'element-ui/lib/locale/lang/tr-TR.js'
 
-Vue.use(Element, { locale })
+import locale from 'element-ui/lib/locale'
+locale.use(tr)
+Vue.use(Element, { locale: tr })

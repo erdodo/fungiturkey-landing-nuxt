@@ -248,7 +248,7 @@ export default {
             this.subject.length < 3 ||
             this.message.length < 3
           ) {
-            ElNotification({
+            this.$notify({
               title: 'Dikkat',
               message: 'Boş alanları doldurunuz!',
               type: 'info',
@@ -266,7 +266,7 @@ export default {
               .$post(this.$store.state.fungi + '/Feedbacks/store', formData)
               .then((res) => {
                 if (res.data.status == 'success') {
-                  ElNotification({
+                  this.$notify({
                     title: 'Başarılı',
                     message: 'Mesaj başarıyla düzenlendi',
                     type: 'success',
@@ -277,7 +277,7 @@ export default {
               })
           }
         } else {
-          ElNotification({
+          this.$notify({
             title: 'Hata',
             message: 'Lütfen resimdeki rakamları doğru giriniz.',
             type: 'error',

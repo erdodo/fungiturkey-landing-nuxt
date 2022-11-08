@@ -1,7 +1,13 @@
 <template>
   <header class="fixed-top head">
-    <div class="px-5" v-if="desktop || true">
+    <div
+      class="px-5 pt-1 d-flex justify-content-between container"
+      v-if="desktop || true"
+    >
       <!-- main nav -->
+      <a href="/" class="">
+        <img src="@/static/logo.png" width="130" class="m-2" alt=""
+      /></a>
       <el-menu
         :default-active="$route.path"
         class="el-menu-demo align-items-center justify-content-center d-flex"
@@ -13,26 +19,26 @@
         :ellipsis="false"
         router
       >
-        <el-menu-item :index="'/'" class="border-bottom-0">
-          <a href="/">
-            <img src="@/static/logo.png" width="130" class="m-2" alt=""
-          /></a>
-        </el-menu-item>
         <div
           v-if="this.fungi == 'fungitu2_test_fungiturkey'"
           class="text-danger"
         >
           <h1>TEST</h1>
         </div>
-        <el-menu-item class=""></el-menu-item>
+
         <el-menu-item index="/">Anasayfa</el-menu-item>
         <el-menu-item :index="m.table_name" v-for="m in menu" :key="m"
           ><i :class="m.icon" class="me-1"></i>
           {{ m.display_name }}</el-menu-item
         >
 
-        <el-sub-menu v-if="getToken">
-          <template #title>Profil</template>
+        <el-submenu
+          index="/profil"
+          class="profil"
+          v-if="this.$auth.$storage.getUniversal('token')"
+        >
+          <template slot="title">Profil</template>
+
           <el-menu-item index="/profil"
             ><span class="text-dark">Bilgilerim</span></el-menu-item
           >
@@ -48,15 +54,13 @@
           <el-menu-item :index="$route.path" @click="cikis()"
             ><span class="text-dark">Çıkış</span></el-menu-item
           >
-        </el-sub-menu>
+        </el-submenu>
         <el-menu-item v-else index="/uye-ol" @click="uyeol()"
           >Üye Ol</el-menu-item
         >
       </el-menu>
       <!-- /main nav -->
     </div>
-
-    <register :registerState="registerState"></register>
   </header>
 </template>
 
@@ -82,11 +86,16 @@ export default {
       this.desktop = window.innerWidth > 1365 ? true : false
     })
   },
+  created() {
+    this.$axios.defaults.headers.common['token'] =
+      this.$auth.$storage.getUniversal('token')
+  },
   methods: {
     uyeol() {
       this.registerState++
     },
     cikis() {
+      this.$auth.$storage.setUniversal('token', '')
       window.location.href = '/'
     },
     getMenu() {
@@ -124,7 +133,11 @@ export default {
   flex-grow: 1;
 }
 .head {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.01));
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.1)
+  ) !important;
+  height: auto;
 }
 @media screen and (max-width: 768px) {
   .mobil-header {
@@ -132,12 +145,22 @@ export default {
   }
 }
 .el-menu-item,
-.el-sub-menu__title {
-  font-size: 15px !important;
+.el-submenu__title {
+  font-size: 17px !important;
   padding-right: 10px;
   padding-left: 10px;
+  color: white;
 }
-.el-menu-item:hover {
-  background: transparent !important;
+.profil .el-submenu__title {
+  color: white !important;
+  border-bottom: none !important;
+}
+.el-menu-item:hover,
+.el-submenu__title:hover {
+  background: rgb(255, 208, 75, 0.1) !important;
+  border-radius: 4px;
+}
+.el-menu--horizontal {
+  background-color: white;
 }
 </style>

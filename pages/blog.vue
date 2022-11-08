@@ -87,13 +87,18 @@
 <script>
 import dateTimeParser from '@/hooks/dateTimeParser'
 export default {
-  metaInfo: {
-    title: 'Blog',
-    titleTemplate: 'Blog',
-    htmlAttrs: {
-      lang: 'tr',
-      amp: true,
-    },
+  head: {
+    title: 'Blog - FungiTurkey',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Fungi Turkey Bloglarımız',
+      },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   data() {
     return {

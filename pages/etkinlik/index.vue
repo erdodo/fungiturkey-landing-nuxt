@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import dateTimeParser from '@/hooks/dateTimeParser'
 
 export default {
@@ -110,9 +109,7 @@ export default {
   mounted() {
     this.getData()
   },
-  computed: {
-    ...mapGetters(['getToken']),
-  },
+  computed: {},
   methods: {
     getData() {
       this.load = true

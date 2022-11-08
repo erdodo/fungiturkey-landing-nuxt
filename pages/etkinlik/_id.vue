@@ -98,7 +98,11 @@
         <button
           class="btn btn-outline-success my-2"
           @click="guncelle_state = true"
-          v-if="guncelle_buton_state && my_record_state && getToken"
+          v-if="
+            guncelle_buton_state &&
+            my_record_state &&
+            this.$auth.$storage.getUniversal('token')
+          "
         >
           Etkinlik kaydını güncelle
         </button>
@@ -180,8 +184,6 @@
 <script>
 import dateTimeParser from '@/hooks/dateTimeParser'
 
-import { mapGetters } from 'vuex'
-
 export default {
   metaInfo: {
     title: 'Etkinlik',
@@ -209,9 +211,7 @@ export default {
       countState: false,
     }
   },
-  computed: {
-    ...mapGetters(['getToken', 'getProfile']),
-  },
+  computed: {},
   mounted() {
     this.getData()
     this.getComment()
@@ -248,8 +248,8 @@ export default {
             this.my_record_state = false
           }
 
-          this.guncelle_buton_state = !Object.values(res.data).find(
-            (e) => e.price_status == '1'
+          this.guncelle_buton_state = Object.values(res.data).find(
+            (e) => e.price_status == '0'
           )
         })
     },
@@ -276,13 +276,9 @@ export default {
 
     yorumGonder() {
       if (this.cmm.length < 5) {
-        ElMessageBox.alert(
-          'Lütfen en az 5 karakterlik bir yorum giriniz.',
-          'Dikkat',
-          {
-            confirmButtonText: 'Tamam',
-          }
-        )
+        this.$alert('Lütfen en az 5 karakterlik bir yorum giriniz.', 'Dikkat', {
+          confirmButtonText: 'Tamam',
+        })
       } else {
         this.buttonLoad = true
         var profile = this.$auth.$storage.getUniversal('profile')
@@ -293,11 +289,11 @@ export default {
         formData.append('activity_id', this.activity.id)
         formData.append('member_id', profile.id)
         formData.append('status', '0')
-        axios
-          .post(this.$store.state.fungi + '/ActivityComment/store', formData)
+        this.$axios
+          .$post(this.$store.state.fungi + '/ActivityComment/store', formData)
           .then((res) => {
-            if (res.data.status == 'success') {
-              ElMessageBox.alert(
+            if (res.status == 'success') {
+              this.$alert(
                 'Yorumunuz başarıyla gönderildi. Teşekkürler.',
                 'Başarılı',
                 {

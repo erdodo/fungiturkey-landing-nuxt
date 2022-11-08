@@ -65,8 +65,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   data() {
     return {
@@ -76,9 +74,7 @@ export default {
       menu: {},
     }
   },
-  computed: {
-    ...mapGetters(['getToken']),
-  },
+  computed: {},
   mounted() {
     this.getMenu()
     this.desktop = window.innerWidth > 1365 ? true : false

@@ -75,7 +75,7 @@ export default {
 
             this.$store.commit('setToken', res.token)
             this.$auth.$storage.setUniversal('token', res.token)
-            console.log(this.$auth.$storage.getUniversal('token'))
+
             this.state = false
             this.email = ''
             this.password = ''

@@ -29,9 +29,11 @@ export default {
     dialogVisible() {
       if (this.dialogVisible == true) {
         this.state = this.dialogVisible
-        this.$axios.$post(this.fungi + '/Settings/1/get').then((res) => {
-          this.sozlesme = res.data.data.sozlesme
-        })
+        this.$axios
+          .$post(this.$store.state.fungi + '/Settings/1/get')
+          .then((res) => {
+            this.sozlesme = res.data.sozlesme
+          })
       } else {
         this.state = this.dialogVisible
         this.$emit('state')
@@ -44,9 +46,11 @@ export default {
     },
   },
   mounted() {
-    this.$axios.$post(this.fungi + '/Settings/1/get').then((res) => {
-      this.sozlesme = res.data.data.sozlesme
-    })
+    this.$axios
+      .$post(this.$store.state.fungi + '/Settings/1/get')
+      .then((res) => {
+        this.sozlesme = res.data.sozlesme
+      })
   },
 }
 </script>

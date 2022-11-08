@@ -100,7 +100,6 @@
 
 <script>
 import dateTimeParser from '@/hooks/dateTimeParser'
-import { mapGetters } from 'vuex'
 
 export default {
   metaInfo: {
@@ -122,9 +121,7 @@ export default {
       user: {},
     }
   },
-  computed: {
-    ...mapGetters(['getToken', 'getProfile']),
-  },
+  computed: {},
   mounted() {
     this.getData()
     this.getComment()
@@ -177,13 +174,9 @@ export default {
     },
     yorumGonder() {
       if (this.cmm.length < 5) {
-        ElMessageBox.alert(
-          'Lütfen en az 5 karakterlik bir yorum giriniz.',
-          'Dikkat',
-          {
-            confirmButtonText: 'Tamam',
-          }
-        )
+        this.$alert('Lütfen en az 5 karakterlik bir yorum giriniz.', 'Dikkat', {
+          confirmButtonText: 'Tamam',
+        })
       } else {
         this.buttonLoad = true
         var profile = this.$auth.$storage.getUniversal('profile')
@@ -198,8 +191,8 @@ export default {
         this.$axios
           .$post(this.$store.state.fungi + '/BlogComment/store', params)
           .then((res) => {
-            if (res.data.status == 'success') {
-              ElMessageBox.alert(
+            if (res.status == 'success') {
+              this.$alert(
                 'Yorumunuz onaylandıktan sonra görüntülenecektir. Teşekkürler.',
                 'Başarılı',
                 {

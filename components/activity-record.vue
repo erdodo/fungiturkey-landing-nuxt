@@ -10,6 +10,15 @@
         class="d-flex justify-content-between flex-column h-100"
         v-loading="loading"
       >
+        <test v-if="false">
+          odalı:{{ oda_state }} etk lmt:{{ etk_limit }} etk count:{{
+            etk_count
+          }}
+          oda sayi:{{ odalar?.length }} cadir_limit:{{
+            cadir_limit
+          }}
+          cadir_count:{{ cadir_count }} oda_count:{{ oda_count }}
+        </test>
         <div v-loading="loading">
           <div
             v-if="oda_state == false && etk_limit > 0"
@@ -21,12 +30,7 @@
               <span class="text-danger">{{ etk_limit - etk_count }}</span>
               kişilik kotamız kalmıştır!</label
             >
-            <el-input-number
-              v-model="etk_count"
-              :min="1"
-              :max="etk_limit"
-              @change="handleChange"
-            />
+            <el-input-number v-model="etk_count" :min="1" :max="etk_limit" />
           </div>
           <div v-if="oda_state == false && etk_limit <= 0">
             <h5>
@@ -68,7 +72,6 @@
                   v-model="cadir_count"
                   :min="0"
                   :max="cadir_limit"
-                  @change="handleChange"
                 />
                 <label v-if="cadir_limit - cadir_count < 4">
                   Son
@@ -97,6 +100,7 @@
                 Maalesef çadır kontenjanımız kalmadığını bildirmek zorundayız.
               </h5>
             </el-card>
+
             <el-card
               v-for="oda in odalar"
               :key="oda"
@@ -107,11 +111,10 @@
                 max-height: 70vh;
                 overflow-y: auto;
               "
-              class="mr-2"
+              class="mx-2"
               :class="secilen.find((e) => e == oda.id) ? 'border-primary' : ''"
-              @click="odaSec(oda.id)"
             >
-              <el-image :src="ImgBase + oda.image">
+              <el-image :src="oda.image">
                 <template #placeholder>
                   <div class="image-slot">
                     Yükleniyor<span class="dot">...</span>
@@ -126,19 +129,24 @@
 
               <label class="mb-1">Kaç kişi misafir olacaksınız?</label>
               <div class="d-flex justify-content-between w-100">
-                <el-input-number
+                <input
+                  type="number"
+                  class="form-control me-2"
                   v-model="oda_count[oda.id]"
                   :min="1"
                   :max="oda.quota"
-                  @change="handleChange"
-                  @click="
-                    secilen.find((e) => e == oda.id) ? odaSec(oda.id) : ''
-                  "
+                  @change="oda_count[oda.id] == 1 ? odaSec(oda.id) : ''"
                 />
-                <el-button type="danger" v-if="secilen.find((e) => e == oda.id)"
+
+                <el-button
+                  type="danger"
+                  v-if="secilen.find((e) => e == oda.id)"
+                  @click="odaSec(oda.id)"
                   >İptal</el-button
                 >
-                <el-button type="primary" v-else>Seç</el-button>
+                <el-button type="primary" v-else @click="odaSec(oda.id)"
+                  >Seç</el-button
+                >
               </div>
               <label
                 class="text-primary mt-1 mb-0"
@@ -163,7 +171,7 @@
               kabul ediniz</span
             >
           </div>
-          <div class="d-flex justify-content-end">
+          <div class="d-flex justify-content-end mt-3">
             <el-button @click="dialogVisible = false">Vazgeç</el-button>
             <el-button type="primary" @click="kayit()">Kayıt Ol</el-button>
           </div>
@@ -257,14 +265,16 @@ export default {
           room_id: null,
         },
       }
-      this.$axios.$post(this.fungi + '/ActivityRecord', params).then((res) => {
-        let limit = 0
-        for (const val of Object.values(res.data.data)) {
-          limit += parseFloat(val.people_count)
-        }
-        this.etk_limit = parseInt(this.activity.quota) - parseInt(limit)
-        this.loading = false
-      })
+      this.$axios
+        .$post(this.$store.state.fungi + '/ActivityRecord', params)
+        .then((res) => {
+          let limit = 0
+          for (const val of Object.values(res.data)) {
+            limit += parseFloat(val.people_count)
+          }
+          this.etk_limit = parseInt(this.activity.quota) - parseInt(limit)
+          this.loading = false
+        })
     },
     getCadirRecords() {
       this.loading = true
@@ -274,13 +284,16 @@ export default {
           room_id: null,
         },
       }
-      this.$axios.$post(this.fungi + '/ActivityRecord', params).then((res) => {
-        let limit = 0
-        for (const val of Object.values(res.data.data)) {
-          limit += parseFloat(val.people_count)
-        }
-        this.cadir_limit = parseInt(this.activity.cadir_kota) - parseInt(limit)
-      })
+      this.$axios
+        .$post(this.$store.state.fungi + '/ActivityRecord', params)
+        .then((res) => {
+          let limit = 0
+          for (const val of Object.values(res.data)) {
+            limit += parseFloat(val.people_count)
+          }
+          this.cadir_limit =
+            parseInt(this.activity.cadir_kota) - parseInt(limit)
+        })
     },
     getOdaRecords() {
       this.loading = true
@@ -291,23 +304,30 @@ export default {
           status: '1',
         },
       }
-      this.$axios.$post(this.fungi + '/ActivityRoom', params).then((res) => {
-        this.odalar = res.data.data
-        for (const oda of Object.values(this.odalar)) {
-          this.oda_count[oda.id] = 0
-        }
-        this.loading = false
-      })
+      this.$axios
+        .$post(this.$store.state.fungi + '/ActivityRoom', params)
+        .then((res) => {
+          this.odalar = res.data
+
+          for (const [key, val] of Object.entries(this.odalar)) {
+            this.odalar[key]['image'] = this.$store.state.img_base + val.image
+          }
+          for (const oda of Object.values(this.odalar)) {
+            this.oda_count[oda.id] = 0
+          }
+          this.loading = false
+        })
     },
     odaSec(id) {
       if (this.secilen.find((e) => e == id)) {
-        delete this.secilen[this.secilen.indexOf(id)]
+        //delete this.secilen[this.secilen.indexOf(id)]
+        this.secilen.splice(this.secilen.indexOf(id), 1)
       } else {
         this.secilen.push(id)
       }
     },
     kayit() {
-      if (this.sozlesme_state != true) {
+      if (this.sozlesme_state == true) {
         this.loading = true
         if (this.oda_state == false) {
           const params = {
@@ -322,9 +342,9 @@ export default {
           }
           this.islem_count += 1
           this.$axios
-            .$post(this.fungi + '/ActivityRecord/store', params)
+            .$post(this.$store.state.fungi + '/ActivityRecord/store', params)
             .then((res) => {
-              if (res.data.status == 'success') {
+              if (res.status == 'success') {
                 this.$notify({
                   title: 'Başarılı',
                   message: 'Kayıt başarıyla oluşturuldu.',
@@ -348,9 +368,9 @@ export default {
             }
             this.islem_count += 1
             this.$axios
-              .$post(this.fungi + '/ActivityRecord/store', params)
+              .$post(this.$store.state.fungi + '/ActivityRecord/store', params)
               .then((res) => {
-                if (res.data.status == 'success') {
+                if (res.status == 'success') {
                   if (this.secilen.length > 0) {
                     this.odaKayit()
                   } else {
@@ -362,6 +382,7 @@ export default {
                     })
                     window.location.reload()
                   }
+                  this.islem_success += 1
                 }
               })
           } else {
@@ -399,9 +420,9 @@ export default {
         }
         this.islem_count += 1
         this.$axios
-          .$post(this.fungi + '/ActivityRecord/store', params)
+          .$post(this.$store.state.fungi + '/ActivityRecord/store', params)
           .then((res) => {
-            if (res.data.status == 'success') {
+            if (res.status == 'success') {
               this.$notify({
                 title: 'Başarılı',
                 message: 'Kayıt başarıyla oluşturuldu.',
@@ -412,9 +433,12 @@ export default {
                 member_id: this.$auth.$storage.getUniversal('profile').id,
               }
               this.$axios
-                .$post(this.fungi + '/ActivityRoom/' + val + '/update', oda)
+                .$post(
+                  this.$store.state.fungi + '/ActivityRoom/' + val + '/update',
+                  oda
+                )
                 .then((res) => {
-                  if (res.data.status == 'success') {
+                  if (res.status == 'success') {
                     this.islem_success += 1
                     this.$notify({
                       title: 'Başarılı',

@@ -17,7 +17,7 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 500px">
+    <div class="container" v-loading="load" style="min-height: 550px">
       <div class="row">
         <ul class="nav nav-tabs">
           <li class="nav-item" @click=";(kategori_id = undefined), getData()">
@@ -72,7 +72,7 @@
           <div class="w-100 d-flex justify-content-center">
             <el-pagination
               :page-size="limit"
-              pager-count="4"
+              :pager-count="4"
               @current-change="setPage($event)"
               layout="prev, pager, next"
               :total="count"
@@ -96,10 +96,10 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'Fungi Turkey Bloglarımız',
+        content:
+          "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor. (Mantar Etkinliği)",
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   data() {
     return {

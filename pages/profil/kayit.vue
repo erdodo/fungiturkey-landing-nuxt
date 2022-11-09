@@ -19,7 +19,7 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 500px">
+    <div class="container" v-loading="load" style="min-height: 550px">
       <div class="row">
         <template v-for="a in activityRecords">
           <div :key="a.id" class="col-12">

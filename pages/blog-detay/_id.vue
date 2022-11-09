@@ -20,7 +20,7 @@
       </div>
     </section>
 
-    <div class="container mb-5" v-loading="load" style="min-height: 500px">
+    <div class="container mb-5" v-loading="load" style="min-height: 550px">
       <div class="d-flex justify-content-center">
         <el-image
           :src="blog.image"
@@ -103,13 +103,18 @@
 import dateTimeParser from '@/hooks/dateTimeParser'
 
 export default {
-  metaInfo: {
-    title: 'Blog',
-    titleTemplate: 'Blog',
-    htmlAttrs: {
-      lang: 'tr',
-      amp: true,
-    },
+  head: {
+    title: 'Blog - FungiTurkey',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor. (Mantar Etkinliği)",
+      },
+    ],
   },
   data() {
     return {
@@ -141,7 +146,7 @@ export default {
           let val = response.data
           val['image'] = this.$store.state.img_base + val.image
           this.blog = val
-
+          document.title = this.blog.title + ' - Fungi Turkey'
           this.load = false
           this.getUser(this.blog.own_id)
         })

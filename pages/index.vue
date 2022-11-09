@@ -45,14 +45,6 @@
 
 <script>
 export default {
-  metaInfo: {
-    title: 'Ana Sayfa',
-    titleTemplate: 'Ana Sayfa',
-    htmlAttrs: {
-      lang: 'tr',
-      amp: true,
-    },
-  },
   data() {
     return {
       slides: [],

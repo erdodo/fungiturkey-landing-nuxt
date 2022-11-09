@@ -22,7 +22,7 @@
       </div>
     </section>
 
-    <div class="container mb-5" v-loading="load" style="min-height: 500px">
+    <div class="container mb-5" v-loading="load" style="min-height: 550px">
       <div class="d-flex justify-content-center">
         <img
           :src="this.$store.state.img_base + activity.image"
@@ -186,13 +186,18 @@
 import dateTimeParser from '@/hooks/dateTimeParser'
 
 export default {
-  metaInfo: {
-    title: 'Etkinlik',
-    titleTemplate: 'Mantar Etkinliklerimiz',
-    htmlAttrs: {
-      lang: 'tr',
-      amp: true,
-    },
+  head: {
+    title: 'Mantar Etkinliği - Fungi Turkey',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor. (Mantar Etkinliği)",
+      },
+    ],
   },
   data() {
     return {
@@ -230,6 +235,7 @@ export default {
         )
         .then((response) => {
           this.activity = response.data
+          document.title = this.activity.title + ' - Fungi Turkey'
         })
       this.load = false
     },

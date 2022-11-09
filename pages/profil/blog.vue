@@ -19,7 +19,7 @@
       </div>
     </section>
 
-    <div class="container mb-5" v-loading="load" style="min-height: 500px">
+    <div class="container mb-5" v-loading="load" style="min-height: 550px">
       <h4>Yorumlar</h4>
       <template v-for="c in comments">
         <div :key="c.comment" class="card p-3 my-1">

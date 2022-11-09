@@ -16,7 +16,7 @@
         </div>
       </div>
     </section>
-    <div class="container" v-loading="load">
+    <div class="container" v-loading="load" style="min-height: 550px">
       <div class="row justify-content-center">
         <div class="col-12 col-sm-9 col-md-7">
           <div v-for="(c, name) in columns" :key="name">

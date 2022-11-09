@@ -16,9 +16,49 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor.",
+      },
+      {
+        name: 'robots',
+        content:
+          'follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large',
+      },
+      {
+        property: 'og:locale',
+        content: 'tr_TR',
+      },
+      {
+        property: 'og:type',
+        content: 'article',
+      },
+      {
+        property: 'og:type',
+        content: 'article',
+      },
+      {
+        property: 'article:author',
+        content: 'Erdoğan Yeşil',
+      },
+      {
+        property: 'og:title',
+        content: 'Fungi Turkey',
+      },
+      {
+        name: 'keywords',
+        content:
+          'Mantar etkinliği, mantar, mantarcılık, Mantar, mantar etkinlik, mantarcı',
+      },
+      {
+        name: 'author',
+        content: 'Erdoğan Yeşil',
+      },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/icon.jpg' },
       {
         rel: 'stylesheet',
         type: 'text/css',
@@ -53,7 +93,7 @@ export default {
   modules: ['@nuxtjs/axios', '@nuxtjs/axios', '@nuxtjs/auth-next'],
 
   env: {
-    baseUrl: 'http://api.fungiturkey.org/api/',
+    baseUrl: 'https://api.fungiturkey.org/api/',
     fungi: 'fungitu2_fungiturkey',
     simple: 'fungitu2_Simple',
     img_base: 'https://api.fungiturkey.org/uploads/',
@@ -64,7 +104,7 @@ export default {
   },
 
   axios: {
-    baseURL: 'http://api.fungiturkey.org/api/', // Used as fallback if no runtime config is provided
+    baseURL: 'https://api.fungiturkey.org/api/', // Used as fallback if no runtime config is provided
     headers: {
       common: {
         Accept: 'application/json, text/plain, */*',

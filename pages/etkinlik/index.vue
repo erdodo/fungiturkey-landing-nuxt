@@ -19,7 +19,7 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 500px">
+    <div class="container" v-loading="load" style="min-height: 550px">
       <div class="w-100 d-flex justify-content-end">
         <el-button @click="calendarState = true"
           ><i class="bi bi-calendar-date mr-2"></i> Etkinlik Takvimi</el-button
@@ -84,13 +84,18 @@
 import dateTimeParser from '@/hooks/dateTimeParser'
 
 export default {
-  metaInfo: {
-    title: 'Etkinlik',
-    titleTemplate: 'Mantar Etkinliklerimiz',
-    htmlAttrs: {
-      lang: 'tr',
-      amp: true,
-    },
+  head: {
+    title: 'Mantar Etkinlikleri - Fungi Turkey',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor. (Mantar Etkinliği)",
+      },
+    ],
   },
 
   data() {

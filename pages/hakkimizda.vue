@@ -19,15 +19,15 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 500px">
+    <div class="container" v-loading="load" style="min-height: 550px">
       <div class="row">
         <div class="col-12 col-md-6">
           <h2>{{ about1?.title }}</h2>
           <div v-html="about1?.content"></div>
           <el-image
-            :src="this.$store.state.img_base + about1?.image"
+            :src="img_base + about1?.image"
             class="w-100"
-            :alt="about1?.title"
+            alt="Mantar Etkinlikleri"
           >
             <div slot="placeholder" class="image-slot">
               Yükleniyor<span class="dot">...</span>
@@ -38,8 +38,8 @@
           <h2>{{ about2?.title }}</h2>
           <div v-html="about2?.content"></div>
           <el-image
-            :alt="about2?.title"
-            :src="this.$store.state.img_base + about2?.image"
+            alt="Mantar Etkinlikleri"
+            :src="img_base + about2?.image"
             class="w-100"
           >
             <div slot="placeholder" class="image-slot">
@@ -55,14 +55,18 @@
 
 <script>
 export default {
-  metaInfo: {
-    title: 'Hakkımızda',
-    titleTemplate:
-      "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor.",
-    htmlAttrs: {
-      lang: 'tr',
-      amp: true,
-    },
+  head: {
+    title: 'Hakkımızda - FungiTurkey',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor. (Mantar Etkinliği)",
+      },
+    ],
   },
   data() {
     return {
@@ -76,6 +80,7 @@ export default {
         content: '',
         image: '',
       },
+      img_base: this.$store.state.img_base,
       load: true,
     }
   },

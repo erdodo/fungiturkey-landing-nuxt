@@ -10,7 +10,7 @@
         class="d-flex justify-content-between flex-column h-100"
         v-if="loading == false"
       >
-        <test v-if="true">
+        <test v-if="false">
           odalı:{{ oda_state }} etk lmt:{{ etk_limit }} etk count:{{
             etk_count
           }}
@@ -57,6 +57,7 @@
             >
               <div class="w-100 d-flex flex-column align-items-center my-3">
                 <el-image
+                  alt="Mantar etkinliği"
                   src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FtcGluZ3xlbnwwfHwwfHw%3D&w=1000&q=80"
                 >
                   <template #placeholder>
@@ -103,7 +104,7 @@
             </el-card>
             <el-card
               v-for="oda in odalar"
-              :key="oda"
+              :key="oda.id"
               style="
                 width: 280px;
                 min-width: 280px;
@@ -114,7 +115,7 @@
               class="mr-2"
               :class="secilen.find((e) => e == oda.id) ? 'border-primary' : ''"
             >
-              <el-image :src="oda.img">
+              <el-image :src="oda.img" alt="Mantar etkinliği">
                 <template #placeholder>
                   <div class="image-slot">
                     Yükleniyor<span class="dot">...</span>
@@ -180,7 +181,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 
 export default {
   props: ['visible', 'activity'],
@@ -203,9 +203,6 @@ export default {
       islem_success: 0,
       loading: true,
     }
-  },
-  computed: {
-    ...mapGetters(['getProfile']),
   },
   watch: {
     dialogVisible() {

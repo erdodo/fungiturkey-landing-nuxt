@@ -19,7 +19,7 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 300px">
+    <div class="container" v-loading="load" style="min-height: 500px">
       <div class="w-100 d-flex justify-content-end">
         <el-button @click="calendarState = true"
           ><i class="bi bi-calendar-date mr-2"></i> Etkinlik Takvimi</el-button
@@ -27,7 +27,7 @@
       </div>
       <div class="row">
         <template v-for="a in activity">
-          <div :key="a" class="col-12 col-sm-6 col-md-4 mt-2">
+          <div :key="a.id" class="col-12 col-sm-6 col-md-4 mt-2">
             <div class="p-2 text-center">
               <el-image
                 :src="a.image"
@@ -76,6 +76,7 @@
       :state="calendarState"
       @state="calendarState = $event"
     ></activity-calendar>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -124,6 +125,7 @@ export default {
           type: 'DESC',
         },
       }
+      this.activity = []
       this.$axios
         .$post(this.$store.state.fungi + '/Activity', params)
         .then((response) => {

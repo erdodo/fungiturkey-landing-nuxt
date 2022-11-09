@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   props: ['dialogVisible'],
   data() {
@@ -43,9 +41,7 @@ export default {
       checkPass: '',
     }
   },
-  computed: {
-    ...mapGetters(['getProfile']),
-  },
+  computed: {},
   watch: {
     dialogVisible() {
       console.log(this.dialogVisible)
@@ -54,24 +50,24 @@ export default {
   },
   methods: {
     newPassword() {
-      axios
-        .post('new-password', {
+      this.$axios
+        .$post('new-password', {
           oldPass: this.oldPass,
           newPass: this.newPass,
           checkPass: this.checkPass,
         })
         .then((res) => {
-          if (res.data.status == 'success') {
+          if (res.status == 'success') {
             this.$emit('success')
             this.$notify({
               title: 'Başarılı',
-              message: res.data.message,
+              message: res.message,
               type: 'success',
             })
           } else {
             this.$notify({
               title: 'Dikkat',
-              message: res.data.message,
+              message: res.message,
               type: 'info',
             })
           }
@@ -79,9 +75,11 @@ export default {
     },
   },
   mounted() {
-    axios.post(this.fungi + '/Settings/1/get').then((res) => {
-      this.sozlesme = res.data.data.sozlesme
-    })
+    this.$axios
+      .$post(this.$store.state.fungi + '/Settings/1/get')
+      .then((res) => {
+        this.sozlesme = res.data.sozlesme
+      })
   },
 }
 </script>

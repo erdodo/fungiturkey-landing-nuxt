@@ -19,10 +19,10 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 300px">
+    <div class="container" v-loading="load" style="min-height: 500px">
       <div class="row">
         <template v-for="a in team">
-          <div :key="a" class="col-12 col-sm-6 col-md-4 p-2">
+          <div :key="a.id" class="col-12 col-sm-6 col-md-4 p-2">
             <div class="border-right border-left">
               <a
                 class="p-2 text-center team-card"
@@ -32,7 +32,7 @@
                 <el-image
                   :src="a?.image"
                   class="w-100 rounded team-image"
-                  :alt="a?.title"
+                  :alt="a?.name + '' + a.surname"
                   fit="cover"
                 >
                   <div slot="placeholder" class="image-slot">
@@ -53,7 +53,7 @@
           <div class="w-100 d-flex justify-content-center">
             <el-pagination
               :page-size="limit"
-              :pager-count="3"
+              pager-count="4"
               @current-change="setPage($event)"
               layout="prev, pager, next"
               :total="count"
@@ -87,6 +87,7 @@
         </span>
       </template>
     </el-dialog>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -129,6 +130,7 @@ export default {
           type: 'DESC',
         },
       }
+      this.team = []
       this.$axios
         .$post(this.$store.state.fungi + '/Team', params)
         .then((response) => {
@@ -137,7 +139,7 @@ export default {
             this.team.push(val)
           }
           this.load = false
-          this.count = response.data.count
+          this.count = response.count
         })
     },
     setPage(e) {

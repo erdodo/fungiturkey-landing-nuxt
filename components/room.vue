@@ -1,7 +1,11 @@
 <template>
   <el-dialog :visible.sync="state" title="Odanız" width="400px">
     <div>
-      <el-image :src="ImgBase + Oda.image" class="w-100">
+      <el-image
+        :src="this.$store.state.img_base + Oda.image"
+        class="w-100"
+        :alt="Oda.room_name + ' Mantar etkinliği'"
+      >
         <template #placeholder>
           <div class="image-slot">Loading<span class="dot">...</span></div>
         </template>
@@ -23,7 +27,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   props: ['dialogVisible', 'room'],
   data() {
@@ -37,10 +40,12 @@ export default {
     dialogVisible() {
       if (this.dialogVisible == true) {
         this.state = this.dialogVisible
-        axios
-          .post(this.fungi + '/ActivityRoom/' + this.room + '/get')
+        this.$axios
+          .$post(
+            this.$store.state.fungi + '/ActivityRoom/' + this.room + '/get'
+          )
           .then((res) => {
-            this.Oda = res.data.data
+            this.Oda = res.data
           })
       } else {
         this.state = this.dialogVisible

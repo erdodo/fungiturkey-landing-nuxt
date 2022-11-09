@@ -17,7 +17,7 @@
             <h5 class="mb-0">
               {{ new Date(date).getDate() }}
             </h5>
-            <div v-for="e in events" :key="e" class="font-size:12px">
+            <div v-for="e in events" :key="e.title" class="font-size:12px">
               <div
                 v-if="
                   new Date(e.start).toDateString() ==
@@ -101,8 +101,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   props: ['state'],
   data() {
@@ -116,9 +114,6 @@ export default {
       message: '',
       events: [],
     }
-  },
-  computed: {
-    ...mapGetters(['getProfile']),
   },
   watch: {
     dialogVisible() {

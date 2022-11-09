@@ -20,7 +20,7 @@
       </div>
     </section>
 
-    <div class="container mb-5" v-loading="load" style="min-height: 300px">
+    <div class="container mb-5" v-loading="load" style="min-height: 500px">
       <div class="d-flex justify-content-center">
         <el-image
           :src="blog.image"
@@ -86,7 +86,7 @@
         <el-divider />
       </div>
       <template v-for="c in comments">
-        <div :key="c" class="card p-3 my-1">
+        <div :key="c.comment" class="card p-3 my-1">
           <div class="d-flex justify-content-between">
             <h5 class="m-0 p-0">{{ c.name }} {{ c.surname }}</h5>
             <p class="text-warning">{{ dateTimeParser(c.added_date) }}</p>
@@ -95,6 +95,7 @@
         </div>
       </template>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 

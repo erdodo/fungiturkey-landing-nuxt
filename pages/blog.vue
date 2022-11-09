@@ -17,7 +17,7 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 300px">
+    <div class="container" v-loading="load" style="min-height: 500px">
       <div class="row">
         <ul class="nav nav-tabs">
           <li class="nav-item" @click=";(kategori_id = undefined), getData()">
@@ -31,8 +31,8 @@
           <li
             class="nav-item"
             v-for="ktg in blog_kategori"
-            :key="ktg"
-            @click=";(kategori_id = ktg.id), getData()"
+            :key="ktg.id"
+            @click=";(kategori_id = ktg.id), (page = 1), getData()"
           >
             <a
               class="nav-link cursor-pointer"
@@ -49,7 +49,7 @@
       </div>
       <div class="row">
         <template v-for="a in blog">
-          <div :key="a" class="col-12 col-sm-6 col-md-4 mt-2">
+          <div :key="a.title" class="col-12 col-sm-6 col-md-4 mt-2">
             <div class="p-2 text-center">
               <el-image :src="a?.image" class="w-100 rounded" :alt="a?.title">
                 <div slot="placeholder" class="image-slot">
@@ -81,6 +81,7 @@
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -130,6 +131,7 @@ export default {
           type: 'DESC',
         },
       }
+      this.blog = []
       this.$axios
         .$post(this.$store.state.fungi + '/Blog', params)
         .then((response) => {

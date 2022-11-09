@@ -19,7 +19,7 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 300px">
+    <div class="container" v-loading="load" style="min-height: 500px">
       <div class="row">
         <div class="col-12 col-md-6">
           <h2>{{ about1?.title }}</h2>
@@ -49,6 +49,7 @@
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 

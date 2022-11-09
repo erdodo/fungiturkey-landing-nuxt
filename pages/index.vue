@@ -9,7 +9,7 @@
       :interval="7000"
       arrow="always"
     >
-      <el-carousel-item v-for="(slide, i) in slides" :key="i">
+      <el-carousel-item v-for="(slide, i) in slides" :key="i.title">
         <div :alt="slide.title">
           <el-image
             :src="slide.image"

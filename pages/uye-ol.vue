@@ -21,7 +21,7 @@
 	=========================================== -->
     <div class="container">
       <div class="row">
-        <div class="col-12 col-md-6" v-for="r in registerData" :key="r">
+        <div class="col-12 col-md-6" v-for="r in registerData" :key="r.name">
           <label class="mt-0 mb-0">{{ r.display }} :</label>
 
           <el-input
@@ -57,10 +57,7 @@
           <div class="d-flex justify-content-between">
             <div class="">
               Üyeliğiniz var mı?
-              <el-button
-                type="success"
-                class="w-100"
-                @click=";(state = false), login()"
+              <el-button type="success" class="w-100" @click="loginState = true"
                 >Giriş Yap</el-button
               >
             </div>
@@ -74,13 +71,8 @@
         </div>
       </div>
     </div>
-    <!-- end section -->
-
-    <!--================================
-=            Google Map            =
-=================================-->
-
-    <!--====  End of Google Map  ====-->
+    <login :loginState="loginState" @loginState="loginState = $event"></login>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -92,6 +84,7 @@ export default {
       params: {},
       msg: {},
       load: false,
+      loginState: false,
     }
   },
   mounted() {

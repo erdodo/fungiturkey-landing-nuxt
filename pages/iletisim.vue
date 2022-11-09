@@ -25,7 +25,7 @@
       class="contact-us"
       id="contact"
       v-loading="load"
-      style="min-height: 300px"
+      style="min-height: 500px"
     >
       <div class="container">
         <div class="row">
@@ -125,7 +125,10 @@
               ></textarea>
             </div>
             <div class="d-flex">
-              <div v-html="dgresim"></div>
+              <el-button type="" circle class="me-2 px-3" @click="getResim">
+                <i class="bi bi-arrow-clockwise fs-5"></i>
+              </el-button>
+              <div class="resim" v-html="dgresim"></div>
 
               <div class="ms-2 w-100">
                 <input
@@ -166,12 +169,11 @@
       referrerpolicy="no-referrer-when-downgrade"
     ></iframe>
     <!--====  End of Google Map  ====-->
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   metaInfo: {
     title: 'İletişim',
@@ -206,17 +208,16 @@ export default {
       dogrulama: '',
     }
   },
-  computed: {
-    ...mapGetters(['getProfile']),
-  },
   mounted() {
     this.getData()
-
-    this.$axios.$post('dogrulama').then((res) => {
-      this.dgresim = res
-    })
+    this.getResim()
   },
   methods: {
+    getResim() {
+      this.$axios.$post('dogrulama').then((res) => {
+        this.dgresim = res
+      })
+    },
     getData() {
       this.load = true
       this.$axios
@@ -241,7 +242,7 @@ export default {
     },
     gonder() {
       this.$axios.$post('md5', { text: this.dogrulama }).then((res) => {
-        if (res.data == document.getElementById('cpt').getAttribute('alt')) {
+        if (res == document.getElementById('cpt').getAttribute('alt')) {
           if (
             this.email.length < 3 ||
             this.name.length < 3 ||
@@ -265,10 +266,10 @@ export default {
             this.$axios
               .$post(this.$store.state.fungi + '/Feedbacks/store', formData)
               .then((res) => {
-                if (res.data.status == 'success') {
+                if (res.status == 'success') {
                   this.$notify({
                     title: 'Başarılı',
-                    message: 'Mesaj başarıyla düzenlendi',
+                    message: 'Mesaj başarıyla gönderildi',
                     type: 'success',
                   })
                   this.buttonLoading = false
@@ -292,4 +293,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.resim p {
+  margin: 0 !important;
+}
+</style>

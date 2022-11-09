@@ -5,7 +5,8 @@
       v-if="
         $route.path != '/' &&
         this.$auth.$storage.getUniversal('token') &&
-        getProfile?.bulletin_state == '0'
+        this.$auth.$storage.getUniversal('profile')?.bulletin_state == '0' &&
+        bulten
       "
     >
       Son etkinliklerden haberdan olmak ister misiniz
@@ -14,12 +15,12 @@
       </button>
     </div>
     <div
-      class="footer-bottom py-2 mt-1 d-flex flex-column flex-md-row text-center justify-content-center align-content-center align-items-center align-items-md-baseline"
+      class="footer-bottom bg-dark text-white py-2 pt-0 mt-4 d-flex flex-column flex-md-row text-center justify-content-center align-content-center align-items-center align-items-md-baseline"
       v-if="$route.path != '/'"
     >
-      <h5 class="mr-2">
+      <span class="mr-2">
         &copy; Copyright {{ new Date().getFullYear() }}. Tüm hakları saklıdır.
-      </h5>
+      </span>
       <h6 class="mr-3">
         Geliştirici
         <a
@@ -30,31 +31,37 @@
       </h6>
       <div style="height: 40px"></div>
     </div>
+    <div class="translate">
+      <div id="google_translate_element"></div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import axios from 'axios'
-
 export default {
-  computed: {},
+  data() {
+    return {
+      bulten: true,
+    }
+  },
   methods: {
     aboneOl() {
       const params = {
         bulletin_state: '1',
       }
-      axios
-        .post(
-          this.simple +
+      this.$axios
+        .$post(
+          this.$store.state.simple +
             '/users/' +
             this.$auth.$storage.getUniversal('profile').id +
             '/update',
           params
         )
         .then((res) => {
-          if (res.data.status == 'success') {
-            this.$store.commit('setProfile', JSON.stringify(res.data.data))
+          if (res.status == 'success') {
+            this.$store.commit('setProfile', JSON.stringify(res.data))
+            this.$auth.$storage.setUniversal('profile', res.data)
+            this.bulten = false
             this.$notify({
               title: 'Başarılı',
               message: 'Bültenimize başarıyla abone oldunuz.',
@@ -76,7 +83,7 @@ export default {
 
 <style>
 .footer-abone {
-  background-color: rgba(0, 0, 0, 0.784);
+  background-color: rgba(0, 0, 0, 0.921);
   color: white;
 }
 </style>

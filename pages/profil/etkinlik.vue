@@ -19,10 +19,10 @@
       </div>
     </section>
 
-    <div class="container mb-5" v-loading="load">
+    <div class="container mb-5" v-loading="load" style="min-height: 500px">
       <h4>Yorumlar</h4>
       <template v-for="c in comments">
-        <div :key="c" class="card p-3 my-1">
+        <div :key="c.comment" class="card p-3 my-1">
           <a
             :href="
               '/activity/' + c.activity_id + '-' + 'Yorum-yapılan-activity'
@@ -82,7 +82,7 @@
         v-if="comments?.length <= 0"
       />
     </div>
-    <el-dialog v-model="dialogState" title="Düzenle" width="50%">
+    <el-dialog :visible.sync="dialogState" title="Düzenle" width="50%">
       <el-input
         v-model="islemData.comment"
         :rows="4"
@@ -96,6 +96,7 @@
         </span>
       </template>
     </el-dialog>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -157,7 +158,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.data.status == 'success') {
+          if (res.status == 'success') {
             this.$notify({
               title: 'Başarılı',
               message: 'Yorum başarıyla onaya gönderildi.',
@@ -175,7 +176,7 @@ export default {
       this.$axios
         .$post(this.$store.state.fungi + '/ActivityComment/' + c.id + '/delete')
         .then((res) => {
-          if (res.data.status == 'success') {
+          if (res.status == 'success') {
             this.$notify({
               title: 'Başarılı',
               message: 'Yorum başarıyla silindi',

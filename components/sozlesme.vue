@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    :visible.sync="state"
-    title="Sözleşme"
-    width="400px"
-    :before-close="handleClose"
-  >
+  <el-dialog :visible.sync="state" title="Sözleşme" width="400px">
     <div style="word-break: normal" v-html="sozlesme"></div>
     <template #footer>
       <span class="dialog-footer">

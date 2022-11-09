@@ -19,10 +19,10 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 300px">
+    <div class="container" v-loading="load" style="min-height: 400px">
       <div class="row">
         <template v-for="a in services">
-          <div :key="a" class="col-12 col-sm-6 col-md-4 mt-2">
+          <div :key="a.id" class="col-12 col-sm-6 col-md-4 mt-2">
             <div
               class="p-2 text-center cursor-pointer"
               @click=";(detayVisible = true), (id = a.id)"
@@ -56,6 +56,7 @@
       @visible="detayVisible = $event"
       :id="this.id"
     ></organizasyon-detay>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -98,6 +99,7 @@ export default {
         },
       }
       this.load = true
+      this.services = []
       this.$axios
         .$post(this.$store.state.fungi + '/Services', params)
         .then((response) => {

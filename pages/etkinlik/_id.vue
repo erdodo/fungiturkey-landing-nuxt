@@ -22,11 +22,11 @@
       </div>
     </section>
 
-    <div class="container mb-5" v-loading="load" style="min-height: 300px">
+    <div class="container mb-5" v-loading="load" style="min-height: 500px">
       <div class="d-flex justify-content-center">
         <img
           :src="this.$store.state.img_base + activity.image"
-          alt=""
+          :alt="activity.title"
           style="max-height: 700px !important"
           class="img-fluid rounded"
         />
@@ -155,7 +155,7 @@
       </div>
 
       <template v-for="c in comments">
-        <div :key="c" class="card p-3 my-1">
+        <div :key="c.comment" class="card p-3 my-1">
           <div class="d-flex justify-content-between">
             <h5 class="m-0 p-0">{{ c.name }} {{ c.surname }}</h5>
             <p class="text-warning">{{ dateTimeParser(c.added_date) }}</p>
@@ -178,6 +178,7 @@
       @visible="guncelle_state = $event"
       :activity="activity"
     />
+    <Footer></Footer>
   </div>
 </template>
 

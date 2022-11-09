@@ -13,6 +13,7 @@
         placeholder="Eposta adresiniz"
         @keypress.enter="giris()"
         size="large"
+        type="email"
       ></el-input>
       <label for="" class="text-danger">{{ err }}</label>
       <br />
@@ -21,6 +22,7 @@
         v-model="password"
         type="password"
         @keypress.enter="giris()"
+        @keyup.enter.native="giris()"
         size="large"
         placeholder="Şifreniz"
         show-password
@@ -83,7 +85,11 @@ export default {
             this.$axios.$post('/profile').then((res2) => {
               this.$store.commit('setProfile', JSON.stringify(res2.data))
               this.$auth.$storage.setUniversal('profile', res2.data)
-              window.location.reload()
+              if (this.$route.fullPath == '/uye-ol') {
+                window.location.href = '/'
+              } else {
+                window.location.reload()
+              }
             })
           } else {
             this.$notify({
@@ -100,8 +106,10 @@ export default {
   },
   watch: {
     loginState() {
-      console.log(this.loginState)
-      this.state = true
+      this.state = this.loginState
+    },
+    state() {
+      this.$emit('loginState', this.state)
     },
     email() {
       if (!/^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {

@@ -10,7 +10,7 @@
         class="d-flex justify-content-between flex-column h-100"
         v-loading="loading"
       >
-        <test v-if="false">
+        <test v-if="true">
           odalı:{{ oda_state }} etk lmt:{{ etk_limit }} etk count:{{
             etk_count
           }}
@@ -56,6 +56,7 @@
             >
               <div class="w-100 d-flex flex-column align-items-center">
                 <el-image
+                  alt="Mantar etkinliği"
                   src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FtcGluZ3xlbnwwfHwwfHw%3D&w=1000&q=80"
                 >
                   <template #placeholder>
@@ -103,7 +104,7 @@
 
             <el-card
               v-for="oda in odalar"
-              :key="oda"
+              :key="oda.id"
               style="
                 width: 280px;
                 min-width: 280px;
@@ -114,7 +115,7 @@
               class="mx-2"
               :class="secilen.find((e) => e == oda.id) ? 'border-primary' : ''"
             >
-              <el-image :src="oda.image">
+              <el-image :src="oda.image" alt="Mantar etkinliği">
                 <template #placeholder>
                   <div class="image-slot">
                     Yükleniyor<span class="dot">...</span>
@@ -156,6 +157,11 @@
               <hr />
               <p v-html="oda.content"></p>
             </el-card>
+            <div v-if="odalar?.length <= 0">
+              <h5>
+                Maalesef oda kontenjanımız kalmadığını bildirmek zorundayız.
+              </h5>
+            </div>
           </div>
         </div>
         <div class="d-flex flex-column">
@@ -183,8 +189,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   props: ['visible', 'activity'],
   data() {
@@ -203,9 +207,6 @@ export default {
       islem_count: 0,
       islem_success: 0,
     }
-  },
-  computed: {
-    ...mapGetters(['getProfile']),
   },
   mounted() {
     this.limitReturn()
@@ -323,6 +324,7 @@ export default {
         //delete this.secilen[this.secilen.indexOf(id)]
         this.secilen.splice(this.secilen.indexOf(id), 1)
       } else {
+        this.oda_count[id] = this.oda_count[id] == 0 ? 1 : this.oda_count[id]
         this.secilen.push(id)
       }
     },

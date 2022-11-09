@@ -54,8 +54,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   props: ['forgetstate'],
   data() {
@@ -73,22 +71,22 @@ export default {
   methods: {
     mail() {
       this.load = true
-      axios
-        .post('/forget', {
+      this.$axios
+        .$post('/forget', {
           email: this.email,
         })
         .then((res) => {
-          if (res.data.status == 'success') {
+          if (res.status == 'success') {
             this.$notify({
               title: 'Başarılı',
-              message: res.data.message,
+              message: res.message,
               type: 'success',
             })
             this.pinState = true
           } else {
             this.$notify({
               title: 'Hata',
-              message: res.data.message,
+              message: res.message,
               type: 'error',
             })
           }
@@ -98,24 +96,24 @@ export default {
         })
     },
     newPass() {
-      axios
-        .post('/forgetPassword', {
+      this.$axios
+        .$post('/forgetPassword', {
           email: this.email,
           pin: this.pin,
           password: this.password,
         })
         .then((res) => {
-          if (res.data.status == 'success') {
+          if (res.status == 'success') {
             this.$notify({
               title: 'Başarılı',
-              message: res.data.message,
+              message: res.message,
               type: 'success',
             })
             this.state = false
           } else {
             this.$notify({
               title: 'Hata',
-              message: res.data.message,
+              message: res.message,
               type: 'error',
             })
           }

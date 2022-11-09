@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header></Header>
     <section class="single-page-header mb-5">
       <div class="container">
         <div class="row">
@@ -18,10 +19,10 @@
       </div>
     </section>
 
-    <div class="container" v-loading="load" style="min-height: 300px">
+    <div class="container" v-loading="load" style="min-height: 500px">
       <div class="row">
         <template v-for="a in activityRecords">
-          <div :key="a" class="col-12">
+          <div :key="a.id" class="col-12">
             <div class="p-2 mt-2 card">
               <div class="row">
                 <div class="col-12 col-lg-7">
@@ -29,8 +30,9 @@
                     class="d-flex align-items-center h-100 flex-wrap justify-content-start justify-content-md-left"
                   >
                     <el-image
-                      :src="ImgBase + activities[a.activity_id]?.image"
+                      :src="activities[a.activity_id]?.img"
                       style="height: 130px"
+                      :alt="activities[a.activity_id]?.title"
                     >
                       <template #placeholder>
                         <div class="image-slot">
@@ -61,15 +63,15 @@
                             {{
                               activities[a.activity_id]?.price * a.people_count
                             }}
-                            TL (Etkinlik) + {{ odalar[a.room_id]['price'] }} TL
-                            (Oda) <br />
+                            TL (Etkinlik) +
+                            {{ odalar[a.room_id]?.['price'] }} TL (Oda) <br />
                             <span class="text-warning"
                               >Genel Toplam:
                               {{
                                 parseFloat(
                                   activities[a.activity_id]?.price *
                                     a.people_count
-                                ) + parseFloat(odalar[a.room_id]['price'])
+                                ) + parseFloat(odalar[a.room_id]?.['price'])
                               }}TL
                             </span>
                           </oda>
@@ -125,16 +127,19 @@
                     </div>
                     <div class="d-flex">
                       <el-button
+                        size="small"
                         type="primary"
                         v-if="
                           a.price_status != 1 &&
-                          activities[a.activity_id]?.room_status == 0
+                          (activities[a.activity_id]?.room_status == 0 ||
+                            activities[a.activity_id]?.room_status == null)
                         "
                         @click=";(record = a), (editStatus = true)"
                         >Düzenle</el-button
                       >
                       <el-button
                         type="default"
+                        size="small"
                         v-if="
                           activities[a.activity_id]?.room_status == 1 &&
                           a.room_id != null
@@ -186,7 +191,7 @@
                         v-if="a.price_status != 1"
                       >
                         <template #reference>
-                          <el-button type="danger">Sil</el-button>
+                          <el-button size="small" type="danger">Sil</el-button>
                         </template>
                       </el-popconfirm>
                     </div>
@@ -199,7 +204,7 @@
         <el-empty
           class="col-12"
           description="Buralar boş gibi görünüyor"
-          v-if="activityRecords.length <= 0"
+          v-if="activityRecords?.length <= 0"
         />
       </div>
     </div>
@@ -215,6 +220,7 @@
         :activity="activities[record.activity_id]"
       />
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -222,10 +228,8 @@
 import dateTimeParser from '@/hooks/dateTimeParser'
 
 export default {
-  components: { ActivityRecordEdit, Room },
   data() {
     return {
-      InfoFilled,
       activityRecords: [],
       activities: {},
       editStatus: false,
@@ -240,15 +244,13 @@ export default {
   mounted() {
     this.getData()
   },
-  computed: {
-    ...mapGetters(['getToken', 'getProfile']),
-  },
+  computed: {},
   methods: {
     getData() {
       this.load = true
       const params = {
         filter: {
-          own_id: this.getProfile.id,
+          own_id: this.$auth.$storage.getUniversal('profile').id,
         },
         order: {
           name: 'id',
@@ -256,74 +258,90 @@ export default {
         },
       }
       this.$axios
-        .$post(this.fungi + '/ActivityRecord', params)
-        .then((response) => {
-          this.activityRecords = response.data.data
+        .$post(this.$store.state.fungi + '/ActivityRecord', params)
+        .then(async (response) => {
+          this.activityRecords = response.data
           for (const val of Object.values(this.activityRecords)) {
             if (this.activityRecordsCount[val.activity_id] == undefined) {
               this.activityRecordsCount[val.activity_id] = 0
             }
             if (val.room_id != null) {
-              this.getRoom(val.room_id)
+              await this.getRoom(val.room_id)
             }
-            this.getActivity(val.activity_id)
-            this.getLimit(val.activity_id)
+            await this.getActivity(val.activity_id)
+            await this.getLimit(val.activity_id)
           }
         })
         .finally(() => {
           this.load = false
         })
     },
-    getActivity(id) {
+    async getActivity(id) {
       if (this.activities[id] == undefined) {
         this.load = true
-        axios
-          .post(this.fungi + '/Activity/' + id + '/get')
+        return await this.$axios
+          .$post(this.$store.state.fungi + '/Activity/' + id + '/get')
           .then((response) => {
-            this.activities[id] = response.data.data
+            this.activities[id] = response.data
+            for (const [key, val] of Object.entries(this.activities)) {
+              this.activities[key]['img'] =
+                this.$store.state.img_base + val.image
+            }
+
+            console.log(this.activities)
           })
           .finally(() => {
             this.load = false
           })
       }
     },
-    getLimit(id) {
+    async getLimit(id) {
       const params = {
         filter: {
           activity_id: id,
           status: '1',
         },
       }
-      axios.post(this.fungi + '/ActivityRecord', params).then((response) => {
-        let activityRecords = response.data.data
-        this.activityRecordsCount[id] = 0
-        for (const val of Object.values(activityRecords)) {
-          console.log(val)
+      return await this.$axios
+        .$post(this.$store.state.fungi + '/ActivityRecord', params)
+        .then((response) => {
+          let activityRecords = response.data
+          this.activityRecordsCount[id] = 0
+          for (const val of Object.values(activityRecords)) {
+            console.log(val)
 
-          this.activityRecordsCount[val.activity_id] =
-            parseFloat(this.activityRecordsCount[val.activity_id]) +
-            parseFloat(val.people_count)
-        }
-        this.load = false
-      })
+            this.activityRecordsCount[val.activity_id] =
+              parseFloat(this.activityRecordsCount[val.activity_id]) +
+              parseFloat(val.people_count)
+          }
+          this.load = false
+        })
     },
-    kayitSil(val) {
+    async kayitSil(val) {
       console.log(this.activities[val.activity_id])
       if (this.activities[val.activity_id].room_status == 1) {
         const params = {
           rent_status: 0,
         }
-        axios
-          .post(this.fungi + '/ActivityRoom/' + val.room_id + '/update', params)
+        return await this.$axios
+          .$post(
+            this.$store.state.fungi +
+              '/ActivityRoom/' +
+              val.room_id +
+              '/update',
+            params
+          )
           .finally(() => {
             this.load = false
           })
       }
-      this.$axios
-        .$post(this.fungi + '/ActivityRecord/' + val.id + '/delete')
+      await this.$axios
+        .$post(
+          this.$store.state.fungi + '/ActivityRecord/' + val.id + '/delete'
+        )
         .then((res) => {
-          if (res.data.status == 'success') {
-            ElNotification({
+          if (res.status == 'success') {
+            this.$notify({
               title: 'Başarılı',
               message: 'Kayıt başarıyla silindi',
               type: 'success',
@@ -335,14 +353,16 @@ export default {
           this.load = false
         })
     },
-    getRoom(id) {
+    async getRoom(id) {
       this.load = true
 
-      axios.post(this.fungi + '/ActivityRoom/' + id + '/get').then((res) => {
-        this.odalar[id] = res.data.data
+      await this.$axios
+        .$post(this.$store.state.fungi + '/ActivityRoom/' + id + '/get')
+        .then((res) => {
+          this.odalar[id] = res.data
 
-        this.load = false
-      })
+          this.load = false
+        })
     },
     dateTimeParser,
   },

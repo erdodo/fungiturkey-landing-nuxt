@@ -8,13 +8,29 @@ export default {
     htmlAttrs: {
       lang: 'tr-TR',
     },
+    bodyAttrs: {
+      class: 'body',
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css',
+      },
+    ],
+    script: [
+      {
+        src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit',
+      },
+      { src: '/google.js' },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -37,10 +53,10 @@ export default {
   modules: ['@nuxtjs/axios', '@nuxtjs/axios', '@nuxtjs/auth-next'],
 
   env: {
-    baseUrl: 'http://api2.fungiturkey.org/api/',
-    fungi: 'fungitu2_test_fungiturkey',
-    simple: 'fungitu2_test_Simple',
-    img_base: 'https://api2.fungiturkey.org/uploads/',
+    baseUrl: 'http://api.fungiturkey.org/api/',
+    fungi: 'fungitu2_fungiturkey',
+    simple: 'fungitu2_Simple',
+    img_base: 'https://api.fungiturkey.org/uploads/',
   },
 
   compilerOptions: {
@@ -48,7 +64,7 @@ export default {
   },
 
   axios: {
-    baseURL: 'http://api2.fungiturkey.org/api/', // Used as fallback if no runtime config is provided
+    baseURL: 'http://api.fungiturkey.org/api/', // Used as fallback if no runtime config is provided
     headers: {
       common: {
         Accept: 'application/json, text/plain, */*',

@@ -33,7 +33,8 @@
                   :src="a?.image"
                   class="w-100 rounded team-image"
                   :alt="a?.name + '' + a.surname"
-                  fit="cover"
+                  style="height: 226px"
+                fit="cover"
                 >
                   <div slot="placeholder" class="image-slot">
                     Yükleniyor<span class="dot">...</span>

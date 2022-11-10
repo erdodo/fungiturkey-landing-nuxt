@@ -1,3 +1,18 @@
+const test = {
+  baseUrl: 'https://api2.fungiturkey.org/api/',
+  fungi: 'fungitu2_test_fungiturkey',
+  simple: 'fungitu2_test_Simple',
+  img_base: 'https://api2.fungiturkey.org/uploads/',
+}
+const production = {
+  baseUrl: 'https://api.fungiturkey.org/api/',
+  fungi: 'fungitu2_fungiturkey',
+  simple: 'fungitu2_Simple',
+  img_base: 'https://api.fungiturkey.org/uploads/',
+}
+const state = 'test-'
+let data = state == 'test' ? test : production
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -68,8 +83,9 @@ export default {
     script: [
       {
         src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit',
+        async: true,
       },
-      { src: '/google.js' },
+      { src: '/google.js', async: true },
     ],
   },
 
@@ -93,10 +109,10 @@ export default {
   modules: ['@nuxtjs/axios', '@nuxtjs/axios', '@nuxtjs/auth-next'],
 
   env: {
-    baseUrl: 'https://api.fungiturkey.org/api/',
-    fungi: 'fungitu2_fungiturkey',
-    simple: 'fungitu2_Simple',
-    img_base: 'https://api.fungiturkey.org/uploads/',
+    baseUrl: data.baseUrl,
+    fungi: data.fungi,
+    simple: data.simple,
+    img_base: data.img_base,
   },
 
   compilerOptions: {
@@ -104,26 +120,13 @@ export default {
   },
 
   axios: {
-    baseURL: 'https://api.fungiturkey.org/api/', // Used as fallback if no runtime config is provided
+    baseURL: data.baseUrl, // Used as fallback if no runtime config is provided
     headers: {
       common: {
         Accept: 'application/json, text/plain, */*',
         token: '',
       },
     },
-  },
-  'cookie-universal-nuxt': {
-    //  To make it work for SSR, remember to set `ssr: true` and `target: 'server'`
-    ssr: true,
-    target: 'server',
-
-    modules: [
-      // Simple usage
-      'cookie-universal-nuxt',
-
-      // With options
-      ['cookie-universal-nuxt', { alias: 'cookiz' }],
-    ],
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

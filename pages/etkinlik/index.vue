@@ -34,6 +34,8 @@
                 :alt="a.title"
                 @click="modalData = !modalData"
                 class="w-100 image-card rounded cursor-pointer"
+                style="height: 226px"
+                fit="cover"
               >
                 <template #placeholder>
                   <div class="image-slot">

@@ -134,14 +134,14 @@ export default {
         this.$axios
           .$post('/register', this.params)
           .then((res) => {
-            if (res.data.status == 'success') {
+            if (res.status == 'success') {
               this.$notify({
                 title: 'Başarılı',
                 message: res.message,
                 type: 'success',
               })
               this.state = false
-              this.login()
+              this.loginState = true
             } else {
               this.$notify({
                 title: 'Başarılı',

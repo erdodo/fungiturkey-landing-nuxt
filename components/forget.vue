@@ -7,7 +7,7 @@
       v-loading="load"
       draggable
     >
-      <div v-if="!pinState">
+      <div v-show="!pinState">
         <label for="">Eposta:</label>
         <el-input
           v-model="email"
@@ -17,7 +17,7 @@
         <label for="" class="text-danger">{{ err }}</label>
       </div>
       <br />
-      <div v-if="pinState">
+      <div v-show="pinState">
         <label class="mt-3" for="">Pin:</label>
         <el-input
           v-model="pin"
@@ -38,13 +38,17 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button
-            v-if="pinState == false"
+            v-show="pinState == false"
             type="primary"
             @click="mail()"
             class="w-100"
             >Eposta gönder</el-button
           >
-          <el-button v-else type="primary" @click="newPass()" class="w-100"
+          <el-button
+            v-show="pinState != false"
+            type="primary"
+            @click="newPass()"
+            class="w-100"
             >Şifre yenile</el-button
           >
         </span>

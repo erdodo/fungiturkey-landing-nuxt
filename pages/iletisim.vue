@@ -159,7 +159,7 @@
 =            Google Map            =
 =================================-->
     <iframe
-      v-if="false"
+      v-show="false"
       :src="contact?.map_link"
       width="100%"
       height="450"

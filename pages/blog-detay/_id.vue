@@ -65,7 +65,7 @@
     </div>
     <div class="container mb-5" v-loading="commentLoad">
       <h4>Yorumlar</h4>
-      <div v-if="this.$auth.$storage.getUniversal('token')">
+      <div v-show="this.$auth.$storage.getUniversal('token')">
         <el-input
           v-model="cmm"
           :rows="3"

@@ -4,11 +4,17 @@
       class="footer-abone py-2 mt-5 d-flex flex-column flex-md-row text-center justify-content-center align-content-center align-items-center align-items-md-baseline"
       v-if="
         $route.path != '/' &&
-        this.$auth.$storage.getUniversal('token') &&
+        this.$auth.$storage.getUniversal('token') != null &&
         this.$auth.$storage.getUniversal('profile')?.bulletin_state == '0' &&
         bulten
       "
     >
+      {{
+        $route.path != '/' &&
+        this.$auth.$storage.getUniversal('token') != null &&
+        this.$auth.$storage.getUniversal('profile')?.bulletin_state == '0' &&
+        bulten
+      }}
       Son etkinliklerden haberdan olmak ister misiniz
       <button class="ml-2 btn btn-outline-primary btn-sm" @click="aboneOl()">
         Abone Ol
@@ -16,7 +22,7 @@
     </div>
     <div
       class="footer-bottom bg-dark text-white py-2 pt-0 mt-4 d-flex flex-column flex-md-row text-center justify-content-center align-content-center align-items-center align-items-md-baseline"
-      v-if="$route.path != '/'"
+      v-show="$route.path != '/'"
     >
       <span class="mr-2">
         &copy; Copyright {{ new Date().getFullYear() }}. Tüm hakları saklıdır.

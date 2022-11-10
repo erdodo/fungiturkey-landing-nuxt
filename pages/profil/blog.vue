@@ -65,10 +65,14 @@
                 class="mx-1"
                 size="large"
                 type="success"
-                v-if="c.status == 1"
+                v-show="c.status == 1"
                 >Onaylı</el-tag
               >
-              <el-tag class="mx-1" size="large" type="danger" v-else
+              <el-tag
+                class="mx-1"
+                size="large"
+                type="danger"
+                v-show="c.status != 1"
                 >Onay Bekliyor</el-tag
               >
             </div>
@@ -77,7 +81,7 @@
       </template>
       <el-empty
         description="Buralar boş gibi görünüyor"
-        v-if="comments?.length <= 0"
+        v-show="comments?.length <= 0"
       />
     </div>
     <el-dialog :visible.sync="dialogState" title="Düzenle" width="50%">

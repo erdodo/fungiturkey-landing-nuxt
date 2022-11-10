@@ -19,7 +19,7 @@
             </h5>
             <div v-for="e in events" :key="e.title" class="font-size:12px">
               <div
-                v-if="
+                v-show="
                   new Date(e.start).toDateString() ==
                   new Date(data.day).toDateString()
                 "
@@ -29,7 +29,7 @@
                 {{ e.title }}
               </div>
               <div
-                v-if="
+                v-show="
                   new Date(e.start).toDateString() >
                     new Date(data.day).toDateString() &&
                   new Date(e.end).toDateString() <
@@ -41,7 +41,7 @@
                 {{ e.title }}
               </div>
               <div
-                v-if="
+                v-show="
                   new Date(e.end).toDateString() ==
                   new Date(data.day).toDateString()
                 "
@@ -51,7 +51,7 @@
                 {{ e.title }}
               </div>
               <div
-                v-if="
+                v-show="
                   new Date(e.kayit).toDateString() ==
                   new Date(data.day).toDateString()
                 "

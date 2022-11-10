@@ -27,7 +27,13 @@
               class="p-2 text-center cursor-pointer"
               @click=";(detayVisible = true), (id = a.id)"
             >
-              <el-image :src="a.image" :alt="a.title" class="w-100 rounded">
+              <el-image
+                :src="a.image"
+                :alt="a.title"
+                style="height: 226px"
+                fit="cover"
+                class="w-100 rounded"
+              >
                 <div slot="placeholder" class="image-slot">
                   Yükleniyor<span class="dot">...</span>
                 </div>

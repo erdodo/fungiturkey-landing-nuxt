@@ -17,7 +17,7 @@
         router
       >
         <div
-          v-if="this.$store.state.fungi == 'fungitu2_test_fungiturkey'"
+          v-show="this.$store.state.fungi == 'fungitu2_test_fungiturkey'"
           class="text-danger"
         >
           <h1>TEST</h1>
@@ -35,7 +35,7 @@
         <el-submenu
           index="/profil"
           class="profil"
-          v-if="this.$auth.$storage.getUniversal('token')"
+          v-show="this.$auth.$storage.getUniversal('token')"
         >
           <template slot="title">Profil</template>
 
@@ -55,7 +55,10 @@
             ><span class="text-dark">Çıkış</span></el-menu-item
           >
         </el-submenu>
-        <el-menu-item v-else index="/uye-ol" @click="uyeol()"
+        <el-menu-item
+          v-show="!this.$auth.$storage.getUniversal('token')"
+          index="/uye-ol"
+          @click="uyeol()"
           >Üye Ol</el-menu-item
         >
       </el-menu>
@@ -85,7 +88,7 @@
           <el-submenu
             index="/profil"
             class="profil"
-            v-if="this.$auth.$storage.getUniversal('token')"
+            v-show="this.$auth.$storage.getUniversal('token')"
           >
             <template slot="title"
               ><span class="text-dark">Profil</span></template
@@ -107,7 +110,10 @@
               ><span class="text-dark">Çıkış</span></el-menu-item
             >
           </el-submenu>
-          <el-menu-item v-else index="/uye-ol" @click="uyeol()"
+          <el-menu-item
+            v-show="this.$auth.$storage.getUniversal('token')"
+            index="/uye-ol"
+            @click="uyeol()"
             >Üye Ol</el-menu-item
           >
         </el-submenu>

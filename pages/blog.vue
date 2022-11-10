@@ -51,7 +51,13 @@
         <template v-for="a in blog">
           <div :key="a.title" class="col-12 col-sm-6 col-md-4 mt-2">
             <div class="p-2 text-center">
-              <el-image :src="a?.image" class="w-100 rounded" :alt="a?.title">
+              <el-image
+                :src="a?.image"
+                class="w-100 rounded"
+                style="height: 226px"
+                fit="cover"
+                :alt="a?.title"
+              >
                 <div slot="placeholder" class="image-slot">
                   Yükleniyor<span class="dot">...</span>
                 </div>

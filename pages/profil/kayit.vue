@@ -287,8 +287,6 @@ export default {
               this.activities[key]['img'] =
                 this.$store.state.img_base + val.image
             }
-
-            console.log(this.activities)
           })
           .finally(() => {
             this.load = false
@@ -308,8 +306,6 @@ export default {
           let activityRecords = response.data
           this.activityRecordsCount[id] = 0
           for (const val of Object.values(activityRecords)) {
-            console.log(val)
-
             this.activityRecordsCount[val.activity_id] =
               parseFloat(this.activityRecordsCount[val.activity_id]) +
               parseFloat(val.people_count)
@@ -318,7 +314,6 @@ export default {
         })
     },
     async kayitSil(val) {
-      console.log(this.activities[val.activity_id])
       if (this.activities[val.activity_id].room_status == 1) {
         const params = {
           rent_status: 0,

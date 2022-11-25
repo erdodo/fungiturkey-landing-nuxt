@@ -17,7 +17,12 @@
             <h5 class="mb-0">
               {{ new Date(date).getDate() }}
             </h5>
-            <div v-for="e in events" :key="e.title" class="font-size:12px">
+            <div
+              v-for="e in events"
+              :key="e.title"
+              class="font-size:10px"
+              @click="$router.push(e.url)"
+            >
               <div
                 v-show="
                   new Date(e.start).toDateString() ==
@@ -26,19 +31,19 @@
                 style="background-color: #ecf5ff"
                 class="rounded ellipsis-2 p-1"
               >
-                {{ e.title }}
+                eşit {{ e.title }}
               </div>
               <div
                 v-show="
-                  new Date(e.start).toDateString() >
+                  new Date(e.start).toDateString() <
                     new Date(data.day).toDateString() &&
-                  new Date(e.end).toDateString() <
+                  new Date(e.end).toDateString() >
                     new Date(data.day).toDateString()
                 "
                 style="background-color: #ecf5ff"
                 class="rounded ellipsis-2 p-1"
               >
-                {{ e.title }}
+                start b end k {{ e.title }}
               </div>
               <div
                 v-show="
@@ -121,13 +126,12 @@ export default {
     },
     state() {
       this.dialogVisible = this.state
-      console.log(this.state)
+
       if (this.state == true) {
         this.getData()
       }
     },
     tarih() {
-      console.log(this.$auth.$storage.getUniversal('profile'))
       if (this.$auth.$storage.getUniversal('profile')?.id != undefined) {
         this.activityFeedback = true
       } else {

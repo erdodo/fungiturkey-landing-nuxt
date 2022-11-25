@@ -35,7 +35,7 @@ export default {
         hid: 'description',
         name: 'description',
         content:
-          "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor.",
+          "Fungi Turkey 2018 yılında mantar türlerini topluma tanıtabilmek ve bilinçli bir şekilde mantar avcılığı yapabilmek adına Ömer Üngör tarafından kurulmuştur. Sosyal medya üzerinden yaptığımız detaylı tür tanımlamaları, online mantar eğitimleri, saha eğitimleri, etkinlikler ve mantar gastronomisi etkinlikleriyle bu alanda Türkiye'de ilkleri gerçekleştirmiştir. Birbirinden değerli katılımcılara sahip Fungi Turkey topluluğu her geçen gün büyüyerek ilerlemeye devam ediyor.( Mantar etkinliği, Mantar avı, Mantar Türkiye)",
       },
       {
         name: 'robots',
@@ -106,7 +106,12 @@ export default {
   buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', '@nuxtjs/axios', '@nuxtjs/auth-next'],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    '@nuxtjs/sitemap',
+  ],
 
   env: {
     baseUrl: data.baseUrl,
@@ -127,6 +132,22 @@ export default {
         token: '',
       },
     },
+  },
+
+  sitemap: {
+    hostname: 'https://fungiturkey.org/',
+    gzip: true,
+    routes: [
+      '/blog-detay/',
+      '/prrofil/',
+      '/blog/',
+      '/hakkimizda/',
+      '/iletisim/',
+      '/index/',
+      '/organizasyon/',
+      '/takim/',
+      '/uye-ol/',
+    ],
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

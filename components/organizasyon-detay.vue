@@ -55,7 +55,6 @@ export default {
   watch: {
     visible() {
       this.dialogVisible = this.visible
-      console.log(this.visible)
     },
     dialogVisible() {
       this.$emit('visible', this.dialogVisible)

@@ -44,7 +44,6 @@ export default {
   computed: {},
   watch: {
     dialogVisible() {
-      console.log(this.dialogVisible)
       this.state = this.dialogVisible
     },
   },

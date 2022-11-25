@@ -111,7 +111,7 @@
             >
           </el-submenu>
           <el-menu-item
-            v-show="this.$auth.$storage.getUniversal('token')"
+            v-show="!this.$auth.$storage.getUniversal('token')"
             index="/uye-ol"
             @click="uyeol()"
             >Üye Ol</el-menu-item
@@ -163,7 +163,11 @@ export default {
           type: 'DESC',
         },
       }
-      if (this.$auth.$storage.getUniversal('menu') != undefined) {
+
+      if (
+        this.$auth.$storage.getUniversal('menu') != undefined &&
+        this.$route.path != '/'
+      ) {
         this.menu = this.$auth.$storage.getUniversal('menu')
       } else {
         this.$axios

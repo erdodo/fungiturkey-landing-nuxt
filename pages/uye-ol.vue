@@ -108,7 +108,7 @@ export default {
       this.load = true
       let control = 0
       for (const clm of Object.keys(this.registerData)) {
-        console.log(this.params[clm] == undefined)
+        
         if (
           this.params[clm] == '' ||
           this.params[clm] == null ||
@@ -117,7 +117,7 @@ export default {
           control++
         }
       }
-      console.log(control)
+      
       if (control > 0) {
         this.$notify({
           title: 'Dikkat',

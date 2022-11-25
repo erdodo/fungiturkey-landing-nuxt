@@ -26,7 +26,7 @@
               Loading<span class="dot">...</span>
             </div>
           </el-image>
-          <div class="slider-content">
+          <div class="slider-content px-2">
             <h1>{{ slide.title }}</h1>
             <p class="fs-6">{{ slide.content }}</p>
             <el-button type="warning" round
@@ -111,7 +111,7 @@ export default {
   padding: 0 50px;
 }
 .slider-content h1 {
-  font-size: 4.5rem;
+  font-size: 4rem;
   font-weight: 300;
   line-height: 1.2;
 }

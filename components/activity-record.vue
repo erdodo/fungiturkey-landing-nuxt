@@ -10,7 +10,7 @@
         class="d-flex justify-content-between flex-column h-100"
         v-loading="loading"
       >
-        <test v-if="true">
+        <test v-if="false">
           odalı:{{ oda_state }} etk lmt:{{ etk_limit }} etk count:{{
             etk_count
           }}
@@ -42,7 +42,10 @@
           <label v-if="odalar?.length > 0"
             >Size uygun olan katılım şeklini seçebilirsiniz.</label
           >
-          <div class="d-flex flex-row align-items-center my-3 overflow-auto">
+          <div
+            v-if="oda_state == true"
+            class="d-flex flex-row align-items-center my-3 overflow-auto"
+          >
             <el-card
               v-loading="loading"
               v-if="oda_state == true && cadir_limit > 0"
@@ -227,7 +230,7 @@ export default {
       }
     },
     activity() {
-      console.log('sdflknsmdfjnsdkj', this.activity.room_status)
+      
       if (this.activity.room_status == 1) {
         this.oda_state = true
         this.loading = true
@@ -409,7 +412,7 @@ export default {
     },
     odaKayit() {
       for (const val of Object.values(this.secilen)) {
-        console.log(this.$auth.$storage.getUniversal('profile'))
+        
         const params = {
           activity_id: this.activity.id,
           email: this.$auth.$storage.getUniversal('profile').email,

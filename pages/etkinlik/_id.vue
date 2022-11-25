@@ -59,7 +59,10 @@
             dateTimeParser(activity.last_record_date)
           }}</a>
         </h6>
-        <h6 class="d-flex align-items-baseline mt-1">
+        <h6
+          class="d-flex align-items-baseline mt-1"
+          v-if="activity.status_record == '1'"
+        >
           <span class="me-3 text-success">
             <el-icon class="me-2 mb-0"><Money /> </el-icon>Ücret:
           </span>
@@ -87,46 +90,53 @@
           <a class="text-dark">{{ activity.cadir_kota }} Kişilik</a>
         </h6>
 
-        <button
-          size="large"
-          class="btn btn-outline-warning my-2"
-          v-if="!this.$auth.$storage.getUniversal('token')"
-          @click="loginMethod()"
-        >
-          Kayıt Olmak İçin Giriş Yap
-        </button>
-        <button
-          class="btn btn-outline-success my-2"
-          @click="guncelle_state = true"
-          v-if="
-            guncelle_buton_state &&
-            my_record_state &&
-            this.$auth.$storage.getUniversal('token')
-          "
-        >
-          Etkinlik kaydını güncelle
-        </button>
+        <div v-if="activity.status_record == '1'">
+          <button
+            size="large"
+            class="btn btn-outline-warning my-2 w-100"
+            v-if="!this.$auth.$storage.getUniversal('token')"
+            @click="loginMethod()"
+          >
+            Kayıt Olmak İçin Giriş Yap
+          </button>
+          <button
+            class="btn btn-outline-success my-2 w-100"
+            @click="guncelle_state = true"
+            v-if="
+              guncelle_buton_state &&
+              my_record_state &&
+              this.$auth.$storage.getUniversal('token')
+            "
+          >
+            Etkinlik kaydını güncelle
+          </button>
 
-        <button
-          size="large"
-          class="btn btn-outline-warning my-2"
-          @click="ekle_state = true"
-          v-else-if="
-            !my_record_state &&
-            this.$auth.$storage.getUniversal('token') &&
-            activity.status_record == '1' &&
-            !limit_state
-          "
-        >
-          Etkinliğe Katıl
-        </button>
-        <button
-          v-if="limit_state && !countState"
-          size="large"
-          class="btn btn-outline-danger my-2"
-        >
-          Kotamız dolmuştur
-        </button>
+          <button
+            size="large"
+            class="btn btn-outline-warning my-2 w-100"
+            @click="ekle_state = true"
+            v-else-if="
+              !my_record_state &&
+              this.$auth.$storage.getUniversal('token') &&
+              activity.status_record == '1' &&
+              !limit_state
+            "
+          >
+            Etkinliğe Katıl
+          </button>
+          <button
+            v-if="limit_state && !countState"
+            size="large"
+            class="btn btn-outline-danger my-2 w-100"
+          >
+            Kotamız dolmuştur
+          </button>
+        </div>
+        <div v-else>
+          <el-tag type="warning" class="w-100 my-3" size="large"
+            >Kayıtlar Sona Erdi</el-tag
+          >
+        </div>
       </div>
       <p v-html="activity.content"></p>
     </div>

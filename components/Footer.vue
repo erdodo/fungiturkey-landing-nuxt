@@ -9,12 +9,6 @@
         bulten
       "
     >
-      {{
-        $route.path != '/' &&
-        this.$auth.$storage.getUniversal('token') != null &&
-        this.$auth.$storage.getUniversal('profile')?.bulletin_state == '0' &&
-        bulten
-      }}
       Son etkinliklerden haberdan olmak ister misiniz
       <button class="ml-2 btn btn-outline-primary btn-sm" @click="aboneOl()">
         Abone Ol

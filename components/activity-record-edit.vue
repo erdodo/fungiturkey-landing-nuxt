@@ -253,21 +253,15 @@ export default {
     },
     odalarim(v) {
       this.limitReturn()
-      console.log('odalarim', v)
     },
-    secilen(v) {
-      console.log('secilen', v)
-    },
-    my_records(v) {
-      console.log('my_records', v)
-    },
+    secilen(v) {},
+    my_records(v) {},
   },
   methods: {
     limitReturn() {
       let state =
         this.etk_count > 0 || this.cadir_count > 0 || this.odalarim.length > 0
-      console.log('kslamdklamslkds2332', this.etk_count)
-      console.log(state)
+
       this.$emit('countState', state)
     },
     getEtkinlikRecords() {
@@ -288,7 +282,7 @@ export default {
         })
       const params1 = {
         filter: {
-          own_id: this.$auth.$storage.getUniversal('profile').id,
+          own_id: this.$auth.$storage.getUniversal('profile')?.id,
           activity_id: this.activity.id,
           room_id: null,
         },
@@ -305,7 +299,7 @@ export default {
               this.etk_limit += parseFloat(val.people_count)
             }
           }
-          console.log(this.my_records)
+
           this.etk_count = limit
           this.etk_limit += limit
           this.loading = false
@@ -344,7 +338,6 @@ export default {
             if (val.status == '1') {
               this.cadir_limit += parseFloat(val.people_count)
             }
-            console.log(this.my_records)
           }
           this.cadir_count = limit
           this.cadir_limit += limit
@@ -399,12 +392,12 @@ export default {
               this.$axios
                 .$post(this.$store.state.fungi + '/ActivityRecord', params3)
                 .then((res) => {
-                  console.log(res)
+                  
                   for (const val of Object.values(res.data)) {
                     this.oda_records[odam] = val
                     this.oda_count[odam] = parseInt(val.people_count)
                   }
-                  console.log('oda_records', this.oda_records)
+                  
                 })
             }
           }
@@ -513,7 +506,7 @@ export default {
             people_count: this.oda_count[ekle], //this.odalar.find((e) => e.id == ekle).quota,
             status: '0',
           }
-          console.log(this.oda_records)
+          
           this.$axios
             .$post(
               this.$store.state.fungi +
@@ -606,10 +599,7 @@ export default {
         else {
           //silinecek
           this.islem_count += 1
-          console.log(
-            this.my_records.find((e) => e.id == sil),
-            this.my_records.find((e) => e.id == sil)['activity_id']
-          )
+          
           this.$axios
             .$post(
               this.$store.state.fungi +

@@ -121,6 +121,12 @@ export default {
   mounted() {
     this.getData()
     this.getKategori()
+    this.$axios.$post('/token_control').then((res) => {
+      if (res.status == 'error') {
+        this.$auth.$storage.setUniversal('token', '')
+        this.$auth.$storage.setUniversal('profile', '')
+      }
+    })
   },
   methods: {
     getData() {

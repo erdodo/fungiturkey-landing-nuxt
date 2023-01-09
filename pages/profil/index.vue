@@ -118,6 +118,12 @@ export default {
   computed: {},
   mounted() {
     this.getData()
+    this.$axios.$post('/token_control').then((res) => {
+      if (res.status == 'error') {
+        this.$auth.$storage.setUniversal('token', '')
+        this.$auth.$storage.setUniversal('profile', '')
+      }
+    })
   },
   methods: {
     getData() {

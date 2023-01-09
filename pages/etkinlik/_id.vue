@@ -232,6 +232,12 @@ export default {
     this.getData()
     this.getComment()
     this.getMyRecord()
+    this.$axios.$post('/token_control').then((res) => {
+      if (res.status == 'error') {
+        this.$auth.$storage.setUniversal('token', '')
+        this.$auth.$storage.setUniversal('profile', '')
+      }
+    })
   },
   methods: {
     getData() {

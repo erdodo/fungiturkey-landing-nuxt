@@ -11,7 +11,7 @@
         >*Etkinlik tarihlerimiz sizin için uygun değil mi? Etkinlik istediğiniz
         güne tıklayarak bize bildirebilirsiniz.</span
       >
-      <el-calendar v-model="tarih">
+      <el-calendar v-model="tarih" @click="dateClick()">
         <template slot="dateCell" slot-scope="{ date, data }">
           <div class="position-relative">
             <h5 class="mb-0">
@@ -29,39 +29,7 @@
                   new Date(data.day).toDateString()
                 "
                 style="background-color: #ecf5ff"
-                class="rounded ellipsis-2 p-1"
-              >
-                eşit {{ e.title }}
-              </div>
-              <div
-                v-show="
-                  new Date(e.start).toDateString() <
-                    new Date(data.day).toDateString() &&
-                  new Date(e.end).toDateString() >
-                    new Date(data.day).toDateString()
-                "
-                style="background-color: #ecf5ff"
-                class="rounded ellipsis-2 p-1"
-              >
-                start b end k {{ e.title }}
-              </div>
-              <div
-                v-show="
-                  new Date(e.end).toDateString() ==
-                  new Date(data.day).toDateString()
-                "
-                style="background-color: #ecf5ff"
-                class="rounded ellipsis-2 p-1"
-              >
-                {{ e.title }}
-              </div>
-              <div
-                v-show="
-                  new Date(e.kayit).toDateString() ==
-                  new Date(data.day).toDateString()
-                "
-                style="background-color: #fdf6ec"
-                class="rounded ellipsis-2 p-1"
+                class="rounded ellipsis-1 p-1"
               >
                 {{ e.title }}
               </div>
@@ -151,6 +119,7 @@ export default {
         limit: 1000,
         filter: {
           status: '1',
+          status_record: '1',
         },
       }
       this.$axios

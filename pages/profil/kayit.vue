@@ -318,7 +318,7 @@ export default {
         const params = {
           rent_status: 0,
         }
-        return await this.$axios
+        await this.$axios
           .$post(
             this.$store.state.fungi +
               '/ActivityRoom/' +
